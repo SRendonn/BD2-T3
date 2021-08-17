@@ -3,7 +3,9 @@ package com.db2_t3.models;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
+import org.bson.BsonDocument;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -35,31 +37,67 @@ public class EstadisticaMongoDB {
         this.misventas = misventas;
     }
 
-    public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos) {
+    /**
+     * Añade la información de ventas de cada departamento a la colección estadísticas de la base de datos de MongoDB.
+     * La estructura final del documento es la siguiente:
+     * {@code
+     * {
+     *     departamento: String,
+     *     misventas: [{
+     *         ciudad: String,
+     *         totalVentas: Int,
+     *         vendedor: {
+     *             cedula: Int,
+     *             ventas: Int
+     *         }
+     *     }]
+     * }
+     * }
+     * @param departamentos Lista de departamentos
+     * @param deleteAllBefore Especifica si debe limpiar la colección antes de insertar los nuevos documentos (false)
+     * */
+    public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos, Boolean deleteAllBefore) {
+        // Se realiza la conexión a la base de datos y se selecciona la colección "estadísticas".
         MongoDatabase db = ConexionMongoDB.conectarMongoDB();
         MongoCollection<Document> stats = db.getCollection("estadisticas");
+        if (deleteAllBefore) stats.deleteMany(new BsonDocument());
         for(int i = 0; i<departamentos.size(); i++){
+            // Se inicializa el documento que será agregado a la colección con el nombre del departamento.
             Document estadistica = new Document("departamento", departamentos.get(i).getNombre());
             ArrayList<CiudadOracle> cities = departamentos.get(i).getVentasPorCiudad();
+            // Se inicializa la lista misventas, que contendrá la ciudad, el total de ventas y el mejor vendedor.
+            // Esta es una lista de BasicDBObject, una implementación de BSON específica de MongoDB, para Java.
             ArrayList<BasicDBObject> misventas = new ArrayList<>();
             for(int j = 0; j<cities.size(); j++){
+                // Se agrega la ciudad al DBObject
                 BasicDBObject venta = new BasicDBObject("ciudad", cities.get(j).getNombre());
+                // Se agrega el totalVentas al DBObject
                 venta.append("totalVentas", cities.get(j).getTotalVentas());
                 try {
+                    // Se agrega el vendedor como un DBObject compuesto por la cédula y las ventas de este
                     BasicDBObject vendedor = new BasicDBObject("cedula", cities.get(j).getMejorVendedor().getCedula());
                     vendedor.append("ventas", cities.get(j).getMejorVendedor().getVentas());
+                    // Se agrega el vendedor al DBObject
                     venta.append("vendedor", vendedor);
                 }
                 catch (Exception e){
+                    // Se agrega el vendedor al DBObject
                     venta.append("vendedor", null);
                 }
+                // Se agrega el DBObject venta a la lista misventas
                 misventas.add(venta);
             }
+            // Se agrega la lista misventas al documento
             estadistica.append("misventas", misventas);
+            // Se inserta el documento en la base de datos
             System.out.println(stats.deleteMany(new Document("departamento", departamentos.get(i).getNombre())));
             InsertOneResult res = stats.insertOne(estadistica);
 
             System.out.println(res);
         }
+    }
+
+    public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos) {
+        addEstadisticas(departamentos, false);
     }
 }
