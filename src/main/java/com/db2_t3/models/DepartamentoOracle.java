@@ -6,8 +6,17 @@ import java.util.ArrayList;
 
 public class DepartamentoOracle {
 
+    // Atributos
     private String nombre;
     private ArrayList<CiudadOracle> ventasPorCiudad;
+
+    // Constructor
+    DepartamentoOracle(String nombre, ArrayList<CiudadOracle>ventasPorCiudad){
+        setNombre(nombre);
+        setVentas(ventasPorCiudad);
+    }
+
+    // Getters y setters
 
     public String getNombre() {
         return nombre;
@@ -25,6 +34,17 @@ public class DepartamentoOracle {
         this.ventasPorCiudad = ventasPorCiudad;
     }
 
+
+    /*
+    * Extrae todos los departamentos de la base de datos de Oracle con:
+    * - Nombre
+    * - Lista de ciudades con:
+    *   - Nombre
+    *   - Ventas totales
+    *   - Mejor vendedor con:
+    *     - Cédula
+    *     - Ventas totales del vendedor
+    * */
     public static ArrayList<DepartamentoOracle> obtenerDepartamentos(){
         ArrayList<DepartamentoOracle> listaDepartamentos = new ArrayList<DepartamentoOracle>();
         String consulta = "SELECT nom AS nombre FROM departamento ORDER BY nom";
@@ -44,10 +64,5 @@ public class DepartamentoOracle {
         }
         ConexionOracle.desconectarOracle();
         return listaDepartamentos;
-    }
-
-    DepartamentoOracle(String nombre, ArrayList<CiudadOracle>ventasPorCiudad){
-        setNombre(nombre);
-        setVentas(ventasPorCiudad);
     }
 }

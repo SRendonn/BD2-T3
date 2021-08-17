@@ -9,6 +9,9 @@ public class ConexionOracle {
     public static String contra = "";
     private static Connection conn;
 
+    /*
+    * Realiza una conexión con la base de datos de Oracle
+    * */
     public static void conectarOracle(){
 
         try{ // Se carga el driver JDBC-ODBC
@@ -28,6 +31,9 @@ public class ConexionOracle {
         }
     }
 
+    /*
+    * Desconecta la base de Datos de Oracle
+    * */
     public static void desconectarOracle(){
         try{
             conn.close();
@@ -39,6 +45,10 @@ public class ConexionOracle {
 
     }
 
+    /*
+    * Retorna el resultado de una consulta en la base de datos de Oracle a partir de un
+    * String con la consulta
+    * */
     public static ResultSet consultarOracle(String consulta){
         Statement sentencia;
         ResultSet resultado;
@@ -55,25 +65,8 @@ public class ConexionOracle {
             return null;
         }
 
-        /*try {
-            System.out.println( "Seleccionando..." );
-            resultado = sentencia.executeQuery("SELECT codigo,nom,salario FROM empleado");
-            //Se recorren las tuplas retornadas
-            while (resultado.next())
-            {
-                System.out.println(resultado.getInt("codigo")+
-                        "---" + resultado.getString("nom")+ "---" +
-                        resultado.getInt("salario") + resultado);
-            }
-            conn.close(); //Cierre de la conexión
-        }
-        catch( SQLException e ){
-            System.out.println("Error: " +
-                    e.getMessage());
-        }*/
 
     }
-
 
 
 }

@@ -20,7 +20,7 @@ public class MenuController {
         // Esto es solo para visualizar los resultados por consola
         //Tener cuidado con los Departamentos sin Ciudad, Ciudades sin Empleados y Empleados sin Ventas
 
-        for(int i = 0; i<departamentos.size(); i++){
+        /*for(int i = 0; i<departamentos.size(); i++){
             System.out.println("---------------------------------------------------------------------------------------");
             System.out.println(departamentos.get(i).getNombre());
             ArrayList<CiudadOracle> cities = departamentos.get(i).getVentasPorCiudad();
@@ -37,7 +37,7 @@ public class MenuController {
                 }
 
             }
-        }
+        }*/
 
         textoInformativo.setText("Estadísticas generadas y cargadas en MongoDB");
 
