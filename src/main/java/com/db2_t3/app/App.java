@@ -1,12 +1,16 @@
 package com.db2_t3.app;
 
 import com.db2_t3.models.CiudadOracle;
+import com.db2_t3.models.ConexionMongoDB;
 import com.db2_t3.models.DepartamentoOracle;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
