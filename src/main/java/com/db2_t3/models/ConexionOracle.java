@@ -5,8 +5,8 @@ import java.sql.*;
 public class ConexionOracle {
 
     public static String puerto = "1521";
-    public static String usuario = "santiago";
-    public static String contra = "santiago";
+    public static String usuario = "";
+    public static String contra = "";
     private static Connection conn;
 
     public static void conectarOracle(){

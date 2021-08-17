@@ -1,0 +1,17 @@
+INSERT ALL
+INTO producto VALUES (1, 'Gorra', 93000)
+INTO producto VALUES (2, 'Sombrero', 14000)
+INTO producto VALUES (3, 'Mascarilla', 39000)
+INTO producto VALUES (4, 'Bufanda', 84000)
+INTO producto VALUES (5, 'Gafas', 40000)
+INTO producto VALUES (6, 'Camisa', 87000)
+INTO producto VALUES (7, 'Camiseta', 80000)
+INTO producto VALUES (8, 'Traje', 20000)
+INTO producto VALUES (9, 'Blusa', 82000)
+INTO producto VALUES (10, 'Falda', 85000)
+INTO producto VALUES (11, 'Vestido', 61000)
+INTO producto VALUES (12, 'Tacones', 6000)
+INTO producto VALUES (13, 'Tenis', 25000)
+INTO producto VALUES (14, 'Medias', 42000)
+INTO producto VALUES (15, 'Zapatos', 95000)
+SELECT * FROM dual;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<GridPane fx:controller="com.db2_t3.app.EstadisticasController" xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10"
+          vgap="10">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+    <Text id="titulo"
+          text="Estadísticas"
+          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+
+
+    <HBox spacing="10" alignment="bottom_right"
+          GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <Button onAction="#volver">Volver al Menú</Button>
+    </HBox>
+</GridPane>

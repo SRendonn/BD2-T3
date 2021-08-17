@@ -20,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("index"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }
@@ -35,7 +35,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        ArrayList<DepartamentoOracle> deps= DepartamentoOracle.obtenerDepartamentos();
+        /*ArrayList<DepartamentoOracle> deps= DepartamentoOracle.obtenerDepartamentos();
         for(int i = 0; i<deps.size(); i++){
             System.out.println("---------------------------------------------------------------------------------------");
             System.out.println(deps.get(i).getNombre());
@@ -53,10 +53,10 @@ public class App extends Application {
                 }
 
             }
-        }
+        }*/
         launch();
 
-        deps= DepartamentoOracle.obtenerDepartamentos();
+        /*deps= DepartamentoOracle.obtenerDepartamentos();
         for(int i = 0; i<deps.size(); i++){
             System.out.println("---------------------------------------------------------------------------------------");
             System.out.println(deps.get(i).getNombre());
@@ -74,7 +74,7 @@ public class App extends Application {
                 }
 
             }
-        }
+        }*/
     }
 
 }

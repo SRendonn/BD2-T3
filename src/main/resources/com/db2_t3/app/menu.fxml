@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<GridPane fx:controller="com.db2_t3.app.MenuController" xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10"
+          vgap="10">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+    <Text id="textoBienvenida"
+          text="Bienvenido a BD2-T3 Oracle - MongoDB"
+          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+    <Text id="textoAutores"
+          text="Autores: Santiago Valencia, Sebastián Rendón, Salomé Aristizabal"
+          GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"/>
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="3" spacing="10">
+        <Button id="botonGenerar" onAction="#generarEstadisticas">Generar Estadísticas
+        </Button>
+        <Button fx:id="botonVisualizar" onAction="#visualizarEstadisticas">Visualizar Estadísticas
+        </Button>
+        <Button id="botonVaciar" onAction="#vaciarArreglos">Vaciar arreglos
+        </Button>
+    </HBox>
+    <Text fx:id="textoInformativo"
+          text="Selecciona la opción con la que quieras empezar"
+          GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="3"/>
+    <HBox spacing="10" alignment="bottom_right"
+          GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="3">
+        <Button id="botonVolver" onAction="#irAIndex"  >
+            Cambiar parámetros de las bases de datos
+        </Button>
+    </HBox>
+</GridPane>
