@@ -7,7 +7,7 @@ public class ConexionOracle {
     public static String puerto = "1521";
     public static String usuario = "";
     public static String contra = "";
-    private static Connection conn;
+    public static Connection conn;
 
     /*
     * Realiza una conexión con la base de datos de Oracle
@@ -37,6 +37,7 @@ public class ConexionOracle {
     public static void desconectarOracle(){
         try{
             conn.close();
+            System.out.println("Conexión con Oracle cerrada");
         } catch (SQLException e) {
             System.out.println("No se pudo cerrar la base de datos por el siguiente error:");
             System.out.println("Código de error: "+e.getErrorCode());
@@ -53,7 +54,6 @@ public class ConexionOracle {
         Statement sentencia;
         ResultSet resultado;
         try{
-            conectarOracle();
             sentencia = conn.createStatement();
             resultado = sentencia.executeQuery(consulta);
             return resultado;

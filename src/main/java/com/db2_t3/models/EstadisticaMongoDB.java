@@ -90,7 +90,9 @@ public class EstadisticaMongoDB {
             // Se agrega la lista misventas al documento
             estadistica.append("misventas", misventas);
             // Se inserta el documento en la base de datos
+            System.out.println(stats.deleteMany(new Document("departamento", departamentos.get(i).getNombre())));
             InsertOneResult res = stats.insertOne(estadistica);
+
             System.out.println(res);
         }
     }
