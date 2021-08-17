@@ -56,7 +56,9 @@ public class EstadisticaMongoDB {
                 misventas.add(venta);
             }
             estadistica.append("misventas", misventas);
+            System.out.println(stats.deleteMany(new Document("departamento", departamentos.get(i).getNombre())));
             InsertOneResult res = stats.insertOne(estadistica);
+
             System.out.println(res);
         }
     }

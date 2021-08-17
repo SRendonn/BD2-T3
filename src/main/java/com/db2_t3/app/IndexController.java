@@ -39,6 +39,15 @@ public class IndexController implements Initializable {
             ConexionOracle.puerto = nuevoPuerto;
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Datos agregados correctamente");
             alert.show();
+            try{
+                if(!ConexionOracle.conn.isClosed()){
+                    ConexionOracle.desconectarOracle();
+                }
+            } catch (Exception e){
+
+            }
+            ConexionOracle.conectarOracle();
+
             App.setRoot("menu");
         }
 

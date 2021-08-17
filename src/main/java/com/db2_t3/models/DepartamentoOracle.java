@@ -62,7 +62,6 @@ public class DepartamentoOracle {
             System.out.println(e.getMessage());
             return null;
         }
-        ConexionOracle.desconectarOracle();
         return listaDepartamentos;
     }
 }
