@@ -3,7 +3,9 @@ package com.db2_t3.models;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
+import org.bson.BsonDocument;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -52,11 +54,13 @@ public class EstadisticaMongoDB {
      * }
      * }
      * @param departamentos Lista de departamentos
+     * @param deleteAllBefore Especifica si debe limpiar la colección antes de insertar los nuevos documentos (false)
      * */
-    public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos) {
+    public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos, Boolean deleteAllBefore) {
         // Se realiza la conexión a la base de datos y se selecciona la colección "estadísticas".
         MongoDatabase db = ConexionMongoDB.conectarMongoDB();
         MongoCollection<Document> stats = db.getCollection("estadisticas");
+        if (deleteAllBefore) stats.deleteMany(new BsonDocument());
         for(int i = 0; i<departamentos.size(); i++){
             // Se inicializa el documento que será agregado a la colección con el nombre del departamento.
             Document estadistica = new Document("departamento", departamentos.get(i).getNombre());
@@ -89,5 +93,9 @@ public class EstadisticaMongoDB {
             InsertOneResult res = stats.insertOne(estadistica);
             System.out.println(res);
         }
+    }
+
+    public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos) {
+        addEstadisticas(departamentos, false);
     }
 }
