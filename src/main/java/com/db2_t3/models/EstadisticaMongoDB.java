@@ -59,6 +59,9 @@ public class EstadisticaMongoDB {
     public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos, Boolean deleteAllBefore) {
         // Se realiza la conexión a la base de datos y se selecciona la colección "estadísticas".
         MongoDatabase db = ConexionMongoDB.conectarMongoDB();
+        try {
+            db.createCollection("estadisticas");
+        } catch (Exception e) {}
         MongoCollection<Document> stats = db.getCollection("estadisticas");
         if (deleteAllBefore) stats.deleteMany(new BsonDocument());
         for(int i = 0; i<departamentos.size(); i++){
