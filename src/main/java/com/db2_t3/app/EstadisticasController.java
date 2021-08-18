@@ -1,8 +1,6 @@
 package com.db2_t3.app;
 
-import com.db2_t3.models.EstadisticaDeptoMongoDB;
-import com.db2_t3.models.EstadisticaGlobalMongoDB;
-import javafx.beans.property.SimpleIntegerProperty;
+import com.db2_t3.models.EstadisticaMongoDB;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,39 +17,44 @@ import java.util.ResourceBundle;
 public class EstadisticasController implements Initializable {
 
     @FXML
-    private TableView<EstadisticaDeptoMongoDB> tablaDeptos;
+    private TableView<EstadisticaMongoDB> tablaDeptos;
     @FXML
-    private TableView<EstadisticaGlobalMongoDB> tablaGlobal;
+    private TableView<EstadisticaMongoDB> tablaGlobal;
+
 
     @FXML
-    private TableColumn<EstadisticaDeptoMongoDB, String> ciudadNombreDepto;
+    private TableColumn<EstadisticaMongoDB, String> deptoNombreDepto;
     @FXML
-    private TableColumn<EstadisticaDeptoMongoDB, String> ciudadVentasDepto;
+    private TableColumn<EstadisticaMongoDB, String> deptoVentasDepto;
     @FXML
-    private TableColumn<EstadisticaDeptoMongoDB, String> mejorVendedorCedulaDepto;
+    private TableColumn<EstadisticaMongoDB, String> ciudadNombreDepto;
     @FXML
-    private TableColumn<EstadisticaDeptoMongoDB, String> mejorVendedorVentasDepto;
+    private TableColumn<EstadisticaMongoDB, String> ciudadVentasDepto;
     @FXML
-    private TableColumn<EstadisticaDeptoMongoDB, String> peorVendedorCedulaDepto;
+    private TableColumn<EstadisticaMongoDB, String> mejorVendedorCedulaDepto;
     @FXML
-    private TableColumn<EstadisticaDeptoMongoDB, String> peorVendedorVentasDepto;
+    private TableColumn<EstadisticaMongoDB, String> mejorVendedorVentasDepto;
+    @FXML
+    private TableColumn<EstadisticaMongoDB, String> peorVendedorCedulaDepto;
+    @FXML
+    private TableColumn<EstadisticaMongoDB, String> peorVendedorVentasDepto;
 
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> deptoNombreGlobal;
+    private TableColumn<EstadisticaMongoDB, String> deptoNombreGlobal;
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> deptoVentasGlobal;
+    private TableColumn<EstadisticaMongoDB, String> deptoVentasGlobal;
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> ciudadNombreGlobal;
+    private TableColumn<EstadisticaMongoDB, String> ciudadNombreGlobal;
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> ciudadVentasGlobal;
+    private TableColumn<EstadisticaMongoDB, String> ciudadVentasGlobal;
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> mejorVendedorCedulaGlobal;
+    private TableColumn<EstadisticaMongoDB, String> mejorVendedorCedulaGlobal;
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> mejorVendedorVentasGlobal;
+    private TableColumn<EstadisticaMongoDB, String> mejorVendedorVentasGlobal;
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> peorVendedorCedulaGlobal;
+    private TableColumn<EstadisticaMongoDB, String> peorVendedorCedulaGlobal;
     @FXML
-    private TableColumn<EstadisticaGlobalMongoDB, String> peorVendedorVentasGlobal;
+    private TableColumn<EstadisticaMongoDB, String> peorVendedorVentasGlobal;
 
     public void volver() throws IOException {
         App.setRoot("menu");
@@ -59,15 +62,17 @@ public class EstadisticasController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<EstadisticaDeptoMongoDB> deptos = EstadisticaDeptoMongoDB.getEstadisticasDepartamento();
-        ObservableList<EstadisticaDeptoMongoDB> dataDeptos = FXCollections.observableArrayList(deptos);
+        ArrayList<EstadisticaMongoDB> deptos = EstadisticaMongoDB.getEstadisticasDepartamento();
+        ObservableList<EstadisticaMongoDB> dataDeptos = FXCollections.observableArrayList(deptos);
 
-        ArrayList<EstadisticaGlobalMongoDB> global = EstadisticaGlobalMongoDB.getEstadisticasGlobales();
-        ObservableList<EstadisticaGlobalMongoDB> dataGlobal = FXCollections.observableArrayList(global);
+        ArrayList<EstadisticaMongoDB> global = EstadisticaMongoDB.getEstadisticasGlobales();
+        ObservableList<EstadisticaMongoDB> dataGlobal = FXCollections.observableArrayList(global);
 
         tablaDeptos.setItems(dataDeptos);
         tablaGlobal.setItems(dataGlobal);
 
+        deptoNombreDepto.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
+        deptoVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
         ciudadNombreDepto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMejorCiudad().getNombre()));
         ciudadVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorCiudad().getTotalVentas())));
         mejorVendedorCedulaDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getCedula())));
@@ -75,8 +80,8 @@ public class EstadisticasController implements Initializable {
         peorVendedorCedulaDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getCedula())));
         peorVendedorVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getVentas())));
 
-        deptoNombreGlobal.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getMejorDepartamento().getNombre()));
-        deptoVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorDepartamento().getTotalVentas())));
+        deptoNombreGlobal.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
+        deptoVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
         ciudadNombreGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMejorCiudad().getNombre()));
         ciudadVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorCiudad().getTotalVentas())));
         mejorVendedorCedulaGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getCedula())));

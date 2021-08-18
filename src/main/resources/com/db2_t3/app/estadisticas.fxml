@@ -24,16 +24,8 @@
     <TableView fx:id="tablaDeptos" GridPane.columnIndex="0"
                GridPane.rowIndex="3" >
         <columns>
-            <TableColumn text="Departamento" prefWidth="200">
-                <cellValueFactory>
-                    <PropertyValueFactory property="departamento" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="Total Ventas" prefWidth="200">
-                <cellValueFactory>
-                    <PropertyValueFactory property="totalVentas" />
-                </cellValueFactory>
-            </TableColumn>
+            <TableColumn fx:id="deptoNombreDepto" text="Departamento" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="deptoVentasDepto" text="Total Ventas" prefWidth="200"></TableColumn>
             <TableColumn fx:id="ciudadNombreDepto" text="Mejor Ciudad | Nombre" prefWidth="200"></TableColumn>
             <TableColumn fx:id="ciudadVentasDepto" text="Mejor Ciudad | Ventas" prefWidth="200"></TableColumn>
             <TableColumn fx:id="mejorVendedorCedulaDepto" text="Mejor Vendedor | Cédula" prefWidth="200"></TableColumn>
@@ -44,11 +36,11 @@
     </TableView>
     <Text id="tituloGlobal"
           text="Estadísticas globales"
-          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="4"/>
+          GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="3"/>
     <TableView fx:id="tablaGlobal" GridPane.columnIndex="0"
                GridPane.rowIndex="5" >
         <columns>
-            <TableColumn fx:id="deptoNombreGlobal" text="Departamento" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="deptoNombreGlobal" text="Mejor Departamento" prefWidth="200"></TableColumn>
             <TableColumn fx:id="deptoVentasGlobal" text="Total Ventas Depto" prefWidth="200"></TableColumn>
             <TableColumn fx:id="ciudadNombreGlobal" text="Mejor Ciudad | Nombre" prefWidth="200"></TableColumn>
             <TableColumn fx:id="ciudadVentasGlobal" text="Mejor Ciudad | Ventas" prefWidth="200"></TableColumn>

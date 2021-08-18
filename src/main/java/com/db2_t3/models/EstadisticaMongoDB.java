@@ -12,28 +12,19 @@ import org.bson.conversions.Bson;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EstadisticaDeptoMongoDB {
+public class EstadisticaMongoDB {
 
-    private String departamento;
-    private int totalVentas;
+    private DepartamentoMongoDB departamento;
     private CiudadMongoDB mejorCiudad;
     private EmpleadoMongoDB peorVendedor;
     private EmpleadoMongoDB mejorVendedor;
 
-    public String getDepartamento() {
+    public DepartamentoMongoDB getDepartamento() {
         return departamento;
     }
 
-    public void setDepartamento(String departamento) {
+    public void setDepartamento(DepartamentoMongoDB departamento) {
         this.departamento = departamento;
-    }
-
-    public int getTotalVentas() {
-        return totalVentas;
-    }
-
-    public void setTotalVentas(int totalVentas) {
-        this.totalVentas = totalVentas;
     }
 
     public CiudadMongoDB getMejorCiudad() {
@@ -60,9 +51,8 @@ public class EstadisticaDeptoMongoDB {
         this.mejorVendedor = mejorVendedor;
     }
 
-    public EstadisticaDeptoMongoDB(String departamento, int totalVentas, CiudadMongoDB ciudad, EmpleadoMongoDB mejorVendedor, EmpleadoMongoDB peorVendedor) {
+    public EstadisticaMongoDB(DepartamentoMongoDB departamento, CiudadMongoDB ciudad, EmpleadoMongoDB mejorVendedor, EmpleadoMongoDB peorVendedor) {
         setDepartamento(departamento);
-        setTotalVentas(totalVentas);
         setCiudad(ciudad);
         setMejorVendedor(mejorVendedor);
         setPeorVendedor(peorVendedor);
@@ -134,7 +124,7 @@ public class EstadisticaDeptoMongoDB {
         addEstadisticas(departamentos, false);
     }
 
-    public static ArrayList<EstadisticaDeptoMongoDB> getEstadisticasDepartamento() {
+    public static ArrayList<EstadisticaMongoDB> getEstadisticasDepartamento() {
         MongoDatabase db = ConexionMongoDB.conectarMongoDB();
         MongoCollection<Document> statsCollection = db.getCollection("estadisticas");
 
@@ -175,11 +165,12 @@ public class EstadisticaDeptoMongoDB {
                 groupVendedor
         ));
 
-        ArrayList<EstadisticaDeptoMongoDB> result = new ArrayList<>();
+        ArrayList<EstadisticaMongoDB> result = new ArrayList<>();
 
         for (Document document : query) {
-            String departamento = (String) document.get("_id");
-            int totalVentas = (int) document.get("totalVentas");
+            String deptoNombre = (String) document.get("_id");
+            int deptoVentas = (int) document.get("totalVentas");
+            DepartamentoMongoDB departamento = new DepartamentoMongoDB(deptoNombre, deptoVentas);
             String ciudadNombre = (String) document.get("mejorCiudadNombre");
             int ciudadVentas = (int) document.get("mejorCiudadVentas");
             CiudadMongoDB ciudad = new CiudadMongoDB(ciudadNombre, ciudadVentas);
@@ -199,7 +190,73 @@ public class EstadisticaDeptoMongoDB {
             //        (int) ((Document) document.get("peorVendedor")).get("ventas")
             // );
 
-            EstadisticaDeptoMongoDB stat = new EstadisticaDeptoMongoDB(departamento, totalVentas, ciudad, mejorVendedor, peorVendedor);
+            EstadisticaMongoDB stat = new EstadisticaMongoDB(departamento, ciudad, mejorVendedor, peorVendedor);
+            System.out.println(stat);
+
+            result.add(stat);
+        }
+
+        return result;
+    }
+
+    public static ArrayList<EstadisticaMongoDB> getEstadisticasGlobales() {
+        MongoDatabase db = ConexionMongoDB.conectarMongoDB();
+        MongoCollection<Document> statsCollection = db.getCollection("estadisticas");
+
+        Bson unwind = Aggregates.unwind("$misventas");
+        Bson sortCiudad = Aggregates.sort(Sorts.descending("misventas.totalVentas"));
+        BsonField totalDeptoAux = Accumulators.sum("totalDepto", "$misventas.totalVentas");
+        BsonField deptoAux = Accumulators.first("departamento", "$departamento");
+        BsonField misventas = Accumulators.push("misventas", "$misventas");
+        Bson groupCiudad = Aggregates.group("$departamento", totalDeptoAux, deptoAux, misventas);
+        Bson sortDepto = Aggregates.sort(Sorts.descending("totalDepto"));
+        BsonField totalDepto = Accumulators.first("totalDepto", "$totalDepto");
+        BsonField depto = Accumulators.first("departamento", "$departamento");
+        BsonField mejorCiudadNombreAux = Accumulators.first("mejorCiudadNombre", "$misventas.ciudad");
+        BsonField mejorCiudadVentasAux = Accumulators.first("mejorCiudadVentas", "$misventas.totalVentas");
+        Bson groupAux = Aggregates.group("", totalDepto, depto, mejorCiudadNombreAux, mejorCiudadVentasAux, misventas);
+        Bson sortVendedor = Aggregates.sort(Sorts.descending("misventas.vendedor.ventas"));
+        Bson filterVendedor = Aggregates.match(Filters.ne("misventas.vendedor", null));
+        BsonField mejorCiudadNombre = Accumulators.first("mejorCiudadNombre", "$mejorCiudadNombre");
+        BsonField mejorCiudadVentas = Accumulators.first("mejorCiudadVentas", "$mejorCiudadVentas");
+        BsonField mejorVendedorAcc = Accumulators.first("mejorVendedor", "$misventas.vendedor");
+        BsonField peorVendedorAcc = Accumulators.last("peorVendedor", "$misventas.vendedor");
+        Bson groupAux2 = Aggregates.group("", totalDepto, depto, mejorCiudadNombre, mejorCiudadVentas, mejorVendedorAcc, peorVendedorAcc);
+
+        AggregateIterable<Document> query = statsCollection.aggregate(Arrays.asList(
+                unwind,
+                sortCiudad,
+                groupCiudad,
+                unwind,
+                sortDepto,
+                groupAux,
+                unwind,
+                sortVendedor,
+                filterVendedor,
+                groupAux2
+        ));
+
+        ArrayList<EstadisticaMongoDB> result = new ArrayList<>();
+
+        for (Document document : query) {
+            String nombreDepartamento = (String) document.get("departamento");
+            int totalDepartamento = (int) document.get("totalDepto");
+            DepartamentoMongoDB departamento = new DepartamentoMongoDB(nombreDepartamento, totalDepartamento);
+            String ciudadNombre = (String) document.get("mejorCiudadNombre");
+            int ciudadVentas = (int) document.get("mejorCiudadVentas");
+            CiudadMongoDB ciudad = new CiudadMongoDB(ciudadNombre, ciudadVentas);
+            EmpleadoMongoDB mejorVendedor = document.get("mejorVendedor") == null
+                    ? null : new EmpleadoMongoDB(
+                    (int) ((Document) document.get("mejorVendedor")).get("cedula"),
+                    (int) ((Document) document.get("mejorVendedor")).get("ventas")
+            );
+            EmpleadoMongoDB peorVendedor = document.get("peorVendedor") == null
+                    ? null : new EmpleadoMongoDB(
+                    (int) ((Document) document.get("peorVendedor")).get("cedula"),
+                    (int) ((Document) document.get("peorVendedor")).get("ventas")
+            );
+
+            EstadisticaMongoDB stat = new EstadisticaMongoDB(departamento, ciudad, mejorVendedor, peorVendedor);
             System.out.println(stat);
 
             result.add(stat);
@@ -212,7 +269,6 @@ public class EstadisticaDeptoMongoDB {
     public String toString() {
         return "EstadisticaMongoDB{" +
                 "departamento='" + departamento + '\'' +
-                ", totalVentas=" + totalVentas +
                 ", ciudad=" + mejorCiudad +
                 ", mejorVendedor=" + mejorVendedor +
                 ", peorVendedor=" + peorVendedor +
