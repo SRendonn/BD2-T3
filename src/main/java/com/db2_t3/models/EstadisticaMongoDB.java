@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.InsertOneResult;
+import org.bson.BsonNull;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -140,7 +141,7 @@ public class EstadisticaMongoDB {
 
         // Parte de la query usada para encontrar el mejor y peor vendedor del departamento
         Bson sortVendedor = Aggregates.sort(Sorts.descending("misventas.vendedor.ventas")); // Sort por vendedor con más ventas
-        Bson filterVendedor = Aggregates.match(Filters.ne("misventas.vendedor", null));
+        Bson filterVendedor = Aggregates.match(Filters.ne("misventas.vendedor", new BsonNull()));
         BsonField totalVentasAcc = Accumulators.first("totalVentas", "$totalVentas"); // Sumar totalVentas
         BsonField mejorVendedorAcc = Accumulators.first("mejorVendedor", "$misventas.vendedor"); // Seleccionar mejor vendedor
         BsonField peorVendedorAcc = Accumulators.last("peorVendedor", "$misventas.vendedor"); // Seleccionar peor vendedor
@@ -216,7 +217,7 @@ public class EstadisticaMongoDB {
         BsonField mejorCiudadVentasAux = Accumulators.first("mejorCiudadVentas", "$misventas.totalVentas");
         Bson groupAux = Aggregates.group("", totalDepto, depto, mejorCiudadNombreAux, mejorCiudadVentasAux, misventas);
         Bson sortVendedor = Aggregates.sort(Sorts.descending("misventas.vendedor.ventas"));
-        Bson filterVendedor = Aggregates.match(Filters.ne("misventas.vendedor", null));
+        Bson filterVendedor = Aggregates.match(Filters.ne("misventas.vendedor", new BsonNull()));
         BsonField mejorCiudadNombre = Accumulators.first("mejorCiudadNombre", "$mejorCiudadNombre");
         BsonField mejorCiudadVentas = Accumulators.first("mejorCiudadVentas", "$mejorCiudadVentas");
         BsonField mejorVendedorAcc = Accumulators.first("mejorVendedor", "$misventas.vendedor");
