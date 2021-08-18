@@ -71,22 +71,18 @@ public class EstadisticasController implements Initializable {
         tablaDeptos.setItems(dataDeptos);
         tablaGlobal.setItems(dataGlobal);
 
-        deptoNombreDepto.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
-        deptoVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
-        ciudadNombreDepto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().getNombre()));
-        ciudadVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getCiudad().getTotalVentas())));
-        mejorVendedorCedulaDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getCedula())));
-        mejorVendedorVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getVentas())));
-        peorVendedorCedulaDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getCedula())));
-        peorVendedorVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getVentas())));
+        setTableCellValues(deptoNombreDepto, deptoVentasDepto, ciudadNombreDepto, ciudadVentasDepto, mejorVendedorCedulaDepto, mejorVendedorVentasDepto, peorVendedorCedulaDepto, peorVendedorVentasDepto);
+        setTableCellValues(deptoNombreGlobal, deptoVentasGlobal, ciudadNombreGlobal, ciudadVentasGlobal, mejorVendedorCedulaGlobal, mejorVendedorVentasGlobal, peorVendedorCedulaGlobal, peorVendedorVentasGlobal);
+    }
 
-        deptoNombreGlobal.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
-        deptoVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
-        ciudadNombreGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().getNombre()));
-        ciudadVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getCiudad().getTotalVentas())));
-        mejorVendedorCedulaGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getCedula())));
-        mejorVendedorVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getVentas())));
-        peorVendedorCedulaGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getCedula())));
-        peorVendedorVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getVentas())));
+    private static void setTableCellValues(TableColumn<EstadisticaMongoDB, String> deptoNombre, TableColumn<EstadisticaMongoDB, String> deptoVentas, TableColumn<EstadisticaMongoDB, String> ciudadNombre, TableColumn<EstadisticaMongoDB, String> ciudadVentas, TableColumn<EstadisticaMongoDB, String> mejorVendedorCedula, TableColumn<EstadisticaMongoDB, String> mejorVendedorVentas, TableColumn<EstadisticaMongoDB, String> peorVendedorCedula, TableColumn<EstadisticaMongoDB, String> peorVendedorVentas) {
+        deptoNombre.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
+        deptoVentas.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
+        ciudadNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().getNombre()));
+        ciudadVentas.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getCiudad().getTotalVentas())));
+        mejorVendedorCedula.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getCedula())));
+        mejorVendedorVentas.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getVentas())));
+        peorVendedorCedula.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getCedula())));
+        peorVendedorVentas.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getVentas())));
     }
 }
