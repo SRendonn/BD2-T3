@@ -1,6 +1,6 @@
 package com.db2_t3.models;
 
-public class CiudadMongoDB {
+public class DepartamentoMongoDB {
     private String nombre;
     private int totalVentas;
 
@@ -20,18 +20,14 @@ public class CiudadMongoDB {
         this.totalVentas = totalVentas;
     }
 
-    public CiudadMongoDB(String nombre, int totalVentas) {
+    public DepartamentoMongoDB(String nombre, int totalVentas) {
         setNombre(nombre);
         setTotalVentas(totalVentas);
     }
 
-    public CiudadMongoDB(String nombre) {
-        this(nombre, 0);
-    }
-
     @Override
     public String toString() {
-        return "CiudadMongoDB{" +
+        return "DepartamentoMongoDB{" +
                 "nombre='" + nombre + '\'' +
                 ", totalVentas=" + totalVentas +
                 '}';

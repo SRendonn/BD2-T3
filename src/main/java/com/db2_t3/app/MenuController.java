@@ -1,7 +1,7 @@
 package com.db2_t3.app;
 
 import com.db2_t3.models.DepartamentoOracle;
-import com.db2_t3.models.EstadisticaMongoDB;
+import com.db2_t3.models.EstadisticaDeptoMongoDB;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
@@ -15,7 +15,7 @@ public class MenuController {
 
     public void generarEstadisticas(){
         ArrayList<DepartamentoOracle> departamentos = DepartamentoOracle.obtenerDepartamentos();
-        EstadisticaMongoDB.addEstadisticas(departamentos, true);
+        EstadisticaDeptoMongoDB.addEstadisticas(departamentos, true);
         textoInformativo.setText("Estadísticas generadas y cargadas en MongoDB");
     }
 

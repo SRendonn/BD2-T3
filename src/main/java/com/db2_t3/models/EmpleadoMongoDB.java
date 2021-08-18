@@ -24,4 +24,12 @@ public class EmpleadoMongoDB {
         setCedula(cedula);
         setVentas(ventas);
     }
+
+    @Override
+    public String toString() {
+        return "EmpleadoMongoDB{" +
+                "cedula=" + cedula +
+                ", ventas=" + ventas +
+                '}';
+    }
 }
