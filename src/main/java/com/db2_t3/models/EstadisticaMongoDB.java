@@ -1,25 +1,22 @@
 package com.db2_t3.models;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
-import org.bson.BsonDocument;
 import org.bson.Document;
 
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class EstadisticaMongoDB {
 
     private String departamento;
-    private ArrayList<CiudadOracle> misventas;
-
-    public EstadisticaMongoDB(String departamento, ArrayList<CiudadOracle> misventas) {
-        this.departamento = departamento;
-        this.misventas = misventas;
-    }
+    private Long totalVentas;
+    private CiudadMongoDB ciudad;
+    private EmpleadoMongoDB peorVendedor;
+    private EmpleadoMongoDB mejorVendedor;
 
     public String getDepartamento() {
         return departamento;
@@ -29,12 +26,44 @@ public class EstadisticaMongoDB {
         this.departamento = departamento;
     }
 
-    public ArrayList<CiudadOracle> getMisventas() {
-        return misventas;
+    public Long getTotalVentas() {
+        return totalVentas;
     }
 
-    public void setMisventas(ArrayList<CiudadOracle> misventas) {
-        this.misventas = misventas;
+    public void setTotalVentas(Long totalVentas) {
+        this.totalVentas = totalVentas;
+    }
+
+    public CiudadMongoDB getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(CiudadMongoDB ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public EmpleadoMongoDB getPeorVendedor() {
+        return peorVendedor;
+    }
+
+    public void setPeorVendedor(EmpleadoMongoDB peorVendedor) {
+        this.peorVendedor = peorVendedor;
+    }
+
+    public EmpleadoMongoDB getMejorVendedor() {
+        return mejorVendedor;
+    }
+
+    public void setMejorVendedor(EmpleadoMongoDB mejorVendedor) {
+        this.mejorVendedor = mejorVendedor;
+    }
+
+    public EstadisticaMongoDB(String departamento, Long totalVentas, CiudadMongoDB ciudad, EmpleadoMongoDB peorVendedor, EmpleadoMongoDB mejorVendedor) {
+        setDepartamento(departamento);
+        setTotalVentas(totalVentas);
+        setCiudad(ciudad);
+        setPeorVendedor(peorVendedor);
+        setMejorVendedor(mejorVendedor);
     }
 
     /**
@@ -62,8 +91,8 @@ public class EstadisticaMongoDB {
         try {
             db.createCollection("estadisticas");
         } catch (Exception e) {}
-        MongoCollection<Document> stats = db.getCollection("estadisticas");
-        if (deleteAllBefore) stats.deleteMany(new BsonDocument());
+        MongoCollection<Document> statsCollection = db.getCollection("estadisticas");
+        if (deleteAllBefore) statsCollection.deleteMany(new BasicDBObject());
         for(int i = 0; i<departamentos.size(); i++){
             // Se inicializa el documento que será agregado a la colección con el nombre del departamento.
             Document estadistica = new Document("departamento", departamentos.get(i).getNombre());
@@ -93,14 +122,19 @@ public class EstadisticaMongoDB {
             // Se agrega la lista misventas al documento
             estadistica.append("misventas", misventas);
             // Se inserta el documento en la base de datos
-            System.out.println(stats.deleteMany(new Document("departamento", departamentos.get(i).getNombre())));
-            InsertOneResult res = stats.insertOne(estadistica);
-
+            InsertOneResult res = statsCollection.insertOne(estadistica);
             System.out.println(res);
         }
     }
 
     public static void addEstadisticas(ArrayList<DepartamentoOracle> departamentos) {
         addEstadisticas(departamentos, false);
+    }
+
+    public static void getEstadisticas() {
+        MongoDatabase db = ConexionMongoDB.conectarMongoDB();
+        MongoCollection<Document> statsCollection = db.getCollection("estadisticas");
+        FindIterable<Document> deptos = statsCollection.find();
+        deptos.forEach(document -> System.out.println(document));
     }
 }
