@@ -1,11 +1,9 @@
 package com.db2_t3.app;
 
-import com.db2_t3.app.App;
 import com.db2_t3.models.ConexionOracle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 

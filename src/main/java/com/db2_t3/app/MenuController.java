@@ -1,10 +1,6 @@
 package com.db2_t3.app;
 
 import com.db2_t3.models.*;
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.result.InsertOneResult;
 import com.db2_t3.models.DepartamentoOracle;
 import com.db2_t3.models.EstadisticaDeptoMongoDB;
 import javafx.fxml.FXML;
