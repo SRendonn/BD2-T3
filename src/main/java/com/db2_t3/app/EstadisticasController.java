@@ -75,7 +75,7 @@ public class EstadisticasController implements Initializable {
         setTableCellValues(deptoNombreGlobal, deptoVentasGlobal, ciudadNombreGlobal, ciudadVentasGlobal, mejorVendedorCedulaGlobal, mejorVendedorVentasGlobal, peorVendedorCedulaGlobal, peorVendedorVentasGlobal);
     }
 
-    private static void setTableCellValues(TableColumn<EstadisticaMongoDB, String> deptoNombre, TableColumn<EstadisticaMongoDB, String> deptoVentas, TableColumn<EstadisticaMongoDB, String> ciudadNombre, TableColumn<EstadisticaMongoDB, String> ciudadVentas, TableColumn<EstadisticaMongoDB, String> mejorVendedorCedula, TableColumn<EstadisticaMongoDB, String> mejorVendedorVentas, TableColumn<EstadisticaMongoDB, String> peorVendedorCedula, TableColumn<EstadisticaMongoDB, String> peorVendedorVentas) {
+    private void setTableCellValues(TableColumn<EstadisticaMongoDB, String> deptoNombre, TableColumn<EstadisticaMongoDB, String> deptoVentas, TableColumn<EstadisticaMongoDB, String> ciudadNombre, TableColumn<EstadisticaMongoDB, String> ciudadVentas, TableColumn<EstadisticaMongoDB, String> mejorVendedorCedula, TableColumn<EstadisticaMongoDB, String> mejorVendedorVentas, TableColumn<EstadisticaMongoDB, String> peorVendedorCedula, TableColumn<EstadisticaMongoDB, String> peorVendedorVentas) {
         deptoNombre.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
         deptoVentas.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
         ciudadNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().getNombre()));
