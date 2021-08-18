@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane fx:controller="com.db2_t3.app.EstadisticasController" xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10"
           vgap="10">
     <padding>
@@ -16,10 +14,48 @@
     <Text id="titulo"
           text="Estadísticas"
           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
-
-
     <HBox spacing="10" alignment="bottom_right"
-          GridPane.columnIndex="0" GridPane.rowIndex="2">
+          GridPane.columnIndex="0" GridPane.rowIndex="1">
         <Button onAction="#volver">Volver al Menú</Button>
     </HBox>
+    <Text id="tituloDepto"
+          text="Estadísticas por departamento"
+          GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="3"/>
+    <TableView fx:id="tablaDeptos" GridPane.columnIndex="0"
+               GridPane.rowIndex="3" >
+        <columns>
+            <TableColumn text="Departamento" prefWidth="200">
+                <cellValueFactory>
+                    <PropertyValueFactory property="departamento" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Total Ventas" prefWidth="200">
+                <cellValueFactory>
+                    <PropertyValueFactory property="totalVentas" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="ciudadNombreDepto" text="Mejor Ciudad | Nombre" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="ciudadVentasDepto" text="Mejor Ciudad | Ventas" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="mejorVendedorCedulaDepto" text="Mejor Vendedor | Cédula" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="mejorVendedorVentasDepto" text="Mejor Vendedor | Ventas" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="peorVendedorCedulaDepto" text="Peor Vendedor | Cédula" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="peorVendedorVentasDepto" text="Peor Vendedor | Ventas" prefWidth="200"></TableColumn>
+        </columns>
+    </TableView>
+    <Text id="tituloGlobal"
+          text="Estadísticas globales"
+          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="4"/>
+    <TableView fx:id="tablaGlobal" GridPane.columnIndex="0"
+               GridPane.rowIndex="5" >
+        <columns>
+            <TableColumn fx:id="deptoNombreGlobal" text="Departamento" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="deptoVentasGlobal" text="Total Ventas Depto" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="ciudadNombreGlobal" text="Mejor Ciudad | Nombre" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="ciudadVentasGlobal" text="Mejor Ciudad | Ventas" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="mejorVendedorCedulaGlobal" text="Mejor Vendedor | Cédula" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="mejorVendedorVentasGlobal" text="Mejor Vendedor | Ventas" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="peorVendedorCedulaGlobal" text="Peor Vendedor | Cédula" prefWidth="200"></TableColumn>
+            <TableColumn fx:id="peorVendedorVentasGlobal" text="Peor Vendedor | Ventas" prefWidth="200"></TableColumn>
+        </columns>
+    </TableView>
 </GridPane>

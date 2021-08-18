@@ -8,14 +8,15 @@ import com.mongodb.client.MongoDatabase;
 public class ConexionMongoDB {
     public static final String puerto = "27017";
     public static final String dbName = "db2t3";
+    public static MongoClient client = null;
 
     public static MongoDatabase conectarMongoDB(String databaseName, String port) {
         MongoDatabase database = null;
         try {
-            System.out.println("Conectando a la instancia de MongoDB...");
-            MongoClient client = MongoClients.create("mongodb://localhost:" + port);
+            // Conectando a la instancia de MongoDB...
+            if (client == null) client = MongoClients.create("mongodb://localhost:" + port);
             database = client.getDatabase(databaseName);
-            System.out.println("Conexión exitosa a la instancia de MongoDB");
+            // Conexión exitosa a la instancia de MongoDB
         } catch (Exception e) {
             System.out.println("No se pudo conectar a la instancia de MongoDB");
         }

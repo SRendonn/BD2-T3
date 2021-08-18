@@ -5,9 +5,10 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
+import com.db2_t3.models.DepartamentoOracle;
+import com.db2_t3.models.EstadisticaDeptoMongoDB;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
-import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class MenuController {
 
     public void generarEstadisticas(){
         ArrayList<DepartamentoOracle> departamentos = DepartamentoOracle.obtenerDepartamentos();
-        EstadisticaMongoDB.addEstadisticas(departamentos);
+        EstadisticaDeptoMongoDB.addEstadisticas(departamentos, true);
         textoInformativo.setText("Estadísticas generadas y cargadas en MongoDB");
     }
 
