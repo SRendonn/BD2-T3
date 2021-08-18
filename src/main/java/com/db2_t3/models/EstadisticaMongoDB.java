@@ -171,30 +171,7 @@ public class EstadisticaMongoDB {
         for (Document document : query) {
             String deptoNombre = (String) document.get("_id");
             int deptoVentas = (int) document.get("totalVentas");
-            DepartamentoMongoDB departamento = new DepartamentoMongoDB(deptoNombre, deptoVentas);
-            String ciudadNombre = (String) document.get("mejorCiudadNombre");
-            int ciudadVentas = (int) document.get("mejorCiudadVentas");
-            CiudadMongoDB ciudad = new CiudadMongoDB(ciudadNombre, ciudadVentas);
-            EmpleadoMongoDB mejorVendedor = document.get("mejorVendedor") == null
-                    ? null : new EmpleadoMongoDB(
-                    (int) ((Document) document.get("mejorVendedor")).get("cedula"),
-                    (int) ((Document) document.get("mejorVendedor")).get("ventas")
-            );
-            EmpleadoMongoDB peorVendedor = document.get("peorVendedor") == null
-                    ? null : new EmpleadoMongoDB(
-                            (int) ((Document) document.get("peorVendedor")).get("cedula"),
-                            (int) ((Document) document.get("peorVendedor")).get("ventas")
-                    );
-            // EmpleadoMongoDB peorVendedor = document.get("peorVendedor") == null
-            //        ? mejorVendedor : new EmpleadoMongoDB(
-            //        (int) ((Document) document.get("peorVendedor")).get("cedula"),
-            //        (int) ((Document) document.get("peorVendedor")).get("ventas")
-            // );
-
-            EstadisticaMongoDB stat = new EstadisticaMongoDB(departamento, ciudad, mejorVendedor, peorVendedor);
-            System.out.println(stat);
-
-            result.add(stat);
+            generarResultados(result, document, deptoNombre, deptoVentas);
         }
 
         return result;
@@ -242,28 +219,32 @@ public class EstadisticaMongoDB {
         for (Document document : query) {
             String nombreDepartamento = (String) document.get("departamento");
             int totalDepartamento = (int) document.get("totalDepto");
-            DepartamentoMongoDB departamento = new DepartamentoMongoDB(nombreDepartamento, totalDepartamento);
-            String ciudadNombre = (String) document.get("mejorCiudadNombre");
-            int ciudadVentas = (int) document.get("mejorCiudadVentas");
-            CiudadMongoDB ciudad = new CiudadMongoDB(ciudadNombre, ciudadVentas);
-            EmpleadoMongoDB mejorVendedor = document.get("mejorVendedor") == null
-                    ? null : new EmpleadoMongoDB(
-                    (int) ((Document) document.get("mejorVendedor")).get("cedula"),
-                    (int) ((Document) document.get("mejorVendedor")).get("ventas")
-            );
-            EmpleadoMongoDB peorVendedor = document.get("peorVendedor") == null
-                    ? null : new EmpleadoMongoDB(
-                    (int) ((Document) document.get("peorVendedor")).get("cedula"),
-                    (int) ((Document) document.get("peorVendedor")).get("ventas")
-            );
-
-            EstadisticaMongoDB stat = new EstadisticaMongoDB(departamento, ciudad, mejorVendedor, peorVendedor);
-            System.out.println(stat);
-
-            result.add(stat);
+            generarResultados(result, document, nombreDepartamento, totalDepartamento);
         }
 
         return result;
+    }
+
+    private static void generarResultados(ArrayList<EstadisticaMongoDB> result, Document document, String nombreDepartamento, int totalDepartamento) {
+        DepartamentoMongoDB departamento = new DepartamentoMongoDB(nombreDepartamento, totalDepartamento);
+        String ciudadNombre = (String) document.get("mejorCiudadNombre");
+        int ciudadVentas = (int) document.get("mejorCiudadVentas");
+        CiudadMongoDB ciudad = new CiudadMongoDB(ciudadNombre, ciudadVentas);
+        EmpleadoMongoDB mejorVendedor = document.get("mejorVendedor") == null
+                ? null : new EmpleadoMongoDB(
+                (int) ((Document) document.get("mejorVendedor")).get("cedula"),
+                (int) ((Document) document.get("mejorVendedor")).get("ventas")
+        );
+        EmpleadoMongoDB peorVendedor = document.get("peorVendedor") == null
+                ? null : new EmpleadoMongoDB(
+                (int) ((Document) document.get("peorVendedor")).get("cedula"),
+                (int) ((Document) document.get("peorVendedor")).get("ventas")
+        );
+
+        EstadisticaMongoDB stat = new EstadisticaMongoDB(departamento, ciudad, mejorVendedor, peorVendedor);
+        System.out.println(stat);
+
+        result.add(stat);
     }
 
     @Override
