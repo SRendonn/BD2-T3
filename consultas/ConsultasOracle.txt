@@ -52,3 +52,6 @@ GROUP BY e.miciu.nom;
 
 SELECT cedula, total FROM(SELECT e.cc as cedula, SUM(v.nro_unidades*v.miprod.precio_unitario) AS total FROM empleado e, TABLE(e.ventas) v WHERE e.miciu.nom = 'Chía' GROUP BY e.cc ORDER BY total DESC) WHERE rownum=1;
 
+UPDATE empleado SET ventas=NULL;
+UPDATE empleado SET ventas=vent_varray(venta_tipo((SELECT REF(pro) FROM producto pro WHERE pro.cod =8),2), venta_tipo((SELECT REF(pro) FROM producto pro WHERE pro.cod =10),2)) WHERE cc=1;
+UPDATE historicoventas SET totalacumuladoventas = (SELECT total FROM(SELECT SUM(v.nro_unidades*v.miprod.precio_unitario) AS total FROM empleado e, TABLE(e.ventas) v GROUP BY cc ORDER BY total DESC)) WHERE cc=1;
