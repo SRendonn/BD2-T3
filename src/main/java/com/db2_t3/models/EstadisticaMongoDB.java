@@ -28,7 +28,7 @@ public class EstadisticaMongoDB {
         this.departamento = departamento;
     }
 
-    public CiudadMongoDB getMejorCiudad() {
+    public CiudadMongoDB getCiudad() {
         return mejorCiudad;
     }
 

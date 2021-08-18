@@ -73,8 +73,8 @@ public class EstadisticasController implements Initializable {
 
         deptoNombreDepto.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
         deptoVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
-        ciudadNombreDepto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMejorCiudad().getNombre()));
-        ciudadVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorCiudad().getTotalVentas())));
+        ciudadNombreDepto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().getNombre()));
+        ciudadVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getCiudad().getTotalVentas())));
         mejorVendedorCedulaDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getCedula())));
         mejorVendedorVentasDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getVentas())));
         peorVendedorCedulaDepto.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getCedula())));
@@ -82,8 +82,8 @@ public class EstadisticasController implements Initializable {
 
         deptoNombreGlobal.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getDepartamento().getNombre()));
         deptoVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDepartamento().getTotalVentas())));
-        ciudadNombreGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMejorCiudad().getNombre()));
-        ciudadVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorCiudad().getTotalVentas())));
+        ciudadNombreGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().getNombre()));
+        ciudadVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getCiudad().getTotalVentas())));
         mejorVendedorCedulaGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getCedula())));
         mejorVendedorVentasGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getMejorVendedor().getVentas())));
         peorVendedorCedulaGlobal.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getPeorVendedor().getCedula())));
