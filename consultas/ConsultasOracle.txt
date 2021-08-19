@@ -76,3 +76,4 @@ EXCEPTION
 CREATE TABLE aux(cc NUMBER(15) PRIMARY KEY, totalacumuladoventas NUMBER(30), nuevototal NUMBER(30) NOT NULL) EXCEPTION WHEN OTHERS THEN NULL;
 
 
+UPDATE aux SET totalacumuladoventas = (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc=aux.cc) WHERE EXISTS (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc = aux.cc);
