@@ -1,5 +1,6 @@
 package com.db2_t3.app;
 
+import com.db2_t3.models.ConexionMongoDB;
 import com.db2_t3.models.ConexionOracle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,27 +15,38 @@ import java.util.ResourceBundle;
 public class IndexController implements Initializable {
 
     @FXML
-    PasswordField contraInput;
+    PasswordField contraOracleInput;
 
     @FXML
-    TextField puertoInput;
+    TextField puertoOracleInput;
 
     @FXML
-    TextField usuarioInput;
+    TextField usuarioOracleInput;
+
+    @FXML
+    TextField nombreBaseDeDatosMongoDBInput;
+
+    @FXML
+    TextField puertoMongoDBInput;
 
     @FXML
     private void irAlMenu() throws IOException {
-        String nuevoUsuario = usuarioInput.getText().trim();
-        String nuevaContra = contraInput.getText().trim();
-        String nuevoPuerto = puertoInput.getText().trim();
+        String nuevoUsuarioOracle = usuarioOracleInput.getText().trim();
+        String nuevaContraOracle = contraOracleInput.getText().trim();
+        String nuevoPuertoOracle = puertoOracleInput.getText().trim();
+        String nuevoNombreMongoDB = nombreBaseDeDatosMongoDBInput.getText().trim();
+        String nuevoPuertoMongoDB = puertoMongoDBInput.getText().trim();
 
-        if (nuevoUsuario.equals("") || nuevaContra.equals("") || nuevoPuerto.equals("")){
+        if (nuevoUsuarioOracle.equals("") || nuevaContraOracle.equals("") || nuevoPuertoOracle.equals("")
+        || nuevoNombreMongoDB.equals("") || nuevoPuertoMongoDB.equals("")){
             Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor ingresa los campos solicitados antes de continuar");
             alert.show();
         } else {
-            ConexionOracle.usuario = nuevoUsuario;
-            ConexionOracle.contra = nuevaContra;
-            ConexionOracle.puerto = nuevoPuerto;
+            ConexionOracle.usuario = nuevoUsuarioOracle;
+            ConexionOracle.contra = nuevaContraOracle;
+            ConexionOracle.puerto = nuevoPuertoOracle;
+            ConexionMongoDB.puerto = nuevoPuertoMongoDB;
+            ConexionMongoDB.dbName = nuevoNombreMongoDB;
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Datos agregados correctamente");
             alert.show();
             try{
@@ -54,8 +66,10 @@ public class IndexController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        usuarioInput.setText(ConexionOracle.usuario);
-        contraInput.setText(ConexionOracle.contra);
-        puertoInput.setText(ConexionOracle.puerto);
+        usuarioOracleInput.setText(ConexionOracle.usuario);
+        contraOracleInput.setText(ConexionOracle.contra);
+        puertoOracleInput.setText(ConexionOracle.puerto);
+        nombreBaseDeDatosMongoDBInput.setText(ConexionMongoDB.dbName);
+        puertoMongoDBInput.setText(ConexionMongoDB.puerto);
     }
 }

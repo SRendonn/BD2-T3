@@ -6,8 +6,8 @@ import com.mongodb.client.MongoDatabase;
 
 
 public class ConexionMongoDB {
-    public static final String puerto = "27017";
-    public static final String dbName = "db2t3";
+    public static String puerto = "27017";
+    public static String dbName = "db2t3";
     public static MongoClient client = null;
 
     public static MongoDatabase conectarMongoDB(String databaseName, String port) {
