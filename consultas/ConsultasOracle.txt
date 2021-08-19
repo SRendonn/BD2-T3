@@ -75,5 +75,20 @@ EXCEPTION
 
 CREATE TABLE aux(cc NUMBER(15) PRIMARY KEY, totalacumuladoventas NUMBER(30), nuevototal NUMBER(30) NOT NULL) EXCEPTION WHEN OTHERS THEN NULL;
 
+CREATE TABLE aux(cc NUMBER(15) PRIMARY KEY, totalacumuladoventas NUMBER(30) NOT NULL, nuevototal NUMBER(30) NOT NULL);
+INSERT INTO aux (cc, nuevototal, totalacumuladoventas) SELECT cc, 0, 0 FROM empleado;
+UPDATE aux SET nuevototal = (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc=aux.cc) WHERE EXISTS (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc = aux.cc);
+DELETE FROM historicoventas;
+INSERT INTO historicoventas (cc, totalacumuladoventas) SELECT cedula, total FROM(SELECT e.cc as cedula, SUM(v.nro_unidades*v.miprod.precio_unitario) AS total FROM empleado e, TABLE(e.ventas) v GROUP BY e.cc ORDER BY cc DESC);
+UPDATE aux SET totalacumuladoventas = (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc=aux.cc) WHERE EXISTS (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc = aux.cc);
+DELETE FROM historicoventas;
+INSERT INTO historicoventas (cc, totalacumuladoventas) SELECT cedula, total FROM(SELECT e.cc as cedula, SUM(a.nuevototal+a.totalacumuladoventas) AS total FROM empleado e, aux a WHERE e.cc = a.cc GROUP BY e.cc ORDER BY e.cc DESC);
+DROP TABLE aux;
+UPDATE empleado SET ventas=NULL;
+
+
+INSERT INTO historicoventas (cc, totalacumuladoventas) SELECT cedula, total FROM(SELECT e.cc as cedula, SUM(a.nuevototal+a.totalacumuladoventas) AS total FROM empleado e, aux a WHERE e.cc = a.cc GROUP BY e.cc ORDER BY e.cc DESC);
+
+UPDATE historicoventas SET totalacumuladoventas = (SELECT SUM(nuevototal+totalacumuladoventas) FROM aux WHERE historicoventas.cc = aux.cc);
 
 UPDATE aux SET totalacumuladoventas = (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc=aux.cc) WHERE EXISTS (SELECT historicoventas.totalacumuladoventas FROM historicoventas WHERE historicoventas.cc = aux.cc);
