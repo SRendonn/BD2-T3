@@ -13,14 +13,16 @@
     </padding>
     <Text id="titulo"
           text="Estadísticas"
-          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"
+          style="-fx-font: bold 20px 'serif'"/>
     <HBox spacing="10" alignment="bottom_right"
           GridPane.columnIndex="0" GridPane.rowIndex="1">
         <Button onAction="#volver">Volver al Menú</Button>
     </HBox>
     <Text id="tituloDepto"
           text="Estadísticas por departamento"
-          GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="3"/>
+          GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="3"
+          style="-fx-font: normal bold 15px 'serif'"/>
     <TableView fx:id="tablaDeptos" GridPane.columnIndex="0"
                GridPane.rowIndex="3" >
         <columns>
@@ -36,7 +38,8 @@
     </TableView>
     <Text id="tituloGlobal"
           text="Estadísticas globales"
-          GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="3"/>
+          GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="3"
+          style="-fx-font: normal bold 15px 'serif'"/>
     <TableView fx:id="tablaGlobal" GridPane.columnIndex="0"
                GridPane.rowIndex="5" >
         <columns>

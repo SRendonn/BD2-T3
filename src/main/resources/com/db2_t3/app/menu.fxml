@@ -12,11 +12,30 @@
     </padding>
     <Text id="textoBienvenida"
           text="Bienvenido a BD2-T3 Oracle - MongoDB"
-          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+          GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"
+          style="-fx-font: bold 30px 'serif'"/>
     <Text id="textoAutores"
-          text="Autores: Santiago Valencia, Sebastián Rendón, Salomé Aristizabal"
-          GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"/>
-    <HBox GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="3" spacing="10">
+          text="Autores:"
+          GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"
+          style="-fx-font: normal bold 20px 'serif'"/>
+    <Text id="textoSalome"
+          text="Salomé Aristizabal Giraldo"
+          GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="3"
+          style="-fx-font: italic 15px 'serif'"/>
+    <Text id="textoSebastian"
+          text="Sebastián Rendón Giraldo"
+          GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="3"
+          style="-fx-font: italic 15px 'serif'"/>
+    <Text id="textoSantiago"
+          text="Santiago Alexis Valencia Zapata"
+          GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="3"
+          style="-fx-font: italic 15px 'serif'"/>
+    <Text fx:id="textoInformativo"
+          text="Selecciona la opción con la que quieras empezar"
+          GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="3"
+          style="-fx-font: normal bold 15px 'serif'"/>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="3" spacing="10">
         <Button id="botonGenerar" onAction="#generarEstadisticas">Generar Estadísticas
         </Button>
         <Button fx:id="botonVisualizar" onAction="#visualizarEstadisticas">Visualizar Estadísticas
@@ -24,11 +43,9 @@
         <Button id="botonVaciar" onAction="#vaciarArreglos">Vaciar arreglos
         </Button>
     </HBox>
-    <Text fx:id="textoInformativo"
-          text="Selecciona la opción con la que quieras empezar"
-          GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="3"/>
+
     <HBox spacing="10" alignment="bottom_right"
-          GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="3">
+          GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.columnSpan="3">
         <Button id="botonVolver" onAction="#irAIndex"  >
             Cambiar parámetros de las bases de datos
         </Button>
