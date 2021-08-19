@@ -55,3 +55,24 @@ SELECT cedula, total FROM(SELECT e.cc as cedula, SUM(v.nro_unidades*v.miprod.pre
 UPDATE empleado SET ventas=NULL;
 UPDATE empleado SET ventas=vent_varray(venta_tipo((SELECT REF(pro) FROM producto pro WHERE pro.cod =8),2), venta_tipo((SELECT REF(pro) FROM producto pro WHERE pro.cod =10),2)) WHERE cc=1;
 UPDATE historicoventas SET totalacumuladoventas = (SELECT total FROM(SELECT SUM(v.nro_unidades*v.miprod.precio_unitario) AS total FROM empleado e, TABLE(e.ventas) v GROUP BY cc ORDER BY total DESC)) WHERE cc=1;
+DELETE FROM aux;
+
+IF EXISTS (select * from historicoventas) THEN
+CREATE TABLE aux(cc NUMBER(15) PRIMARY KEY, totalacumuladoventas NUMBER(30), nuevototal NUMBER(30) NOT NULL) WHERE (select count(*) from historicoventas) >= 1;
+INSERT INTO aux (cc, nuevototal) SELECT cedula, total FROM(SELECT e.cc as cedula, SUM(v.nro_unidades*v.miprod.precio_unitario) AS total FROM empleado e, TABLE(e.ventas) v GROUP BY e.cc ORDER BY total DESC)
+UPDATE aux SET totalacumuladoventas = (SELECT totalacumuladoventas FROM historicoventas WHERE historicoventas.cc = aux.cc)
+UPDATE historicoventas SET totalacumuladoventas = (SELECT SUM(nuevototal+totalacumuladoventas) FROM aux WHERE historicoventas.cc = aux.cc)
+DROP TABLE aux
+
+CREATE TABLE aux(cc NUMBER(15) PRIMARY KEY, totalacumuladoventas NUMBER(30), nuevototal NUMBER(30) NOT NULL)
+EXCEPTION
+    WHEN OTHERS THEN
+      IF SQLCODE = -955 THEN
+        NULL; -- suppresses ORA-00955 exception
+      ELSE
+         RAISE;
+      END IF;
+
+CREATE TABLE aux(cc NUMBER(15) PRIMARY KEY, totalacumuladoventas NUMBER(30), nuevototal NUMBER(30) NOT NULL) EXCEPTION WHEN OTHERS THEN NULL;
+
+
